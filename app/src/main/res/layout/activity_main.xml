@@ -24,7 +24,7 @@
         android:id="@+id/lattext" />
 
     <TextView
-        android:text="TextView"
+        android:text="...."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/lattext"
@@ -45,13 +45,14 @@
         android:id="@+id/lontext" />
 
     <TextView
-        android:text="TextView"
+        android:text="...."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/lontext"
         android:layout_alignLeft="@+id/latval"
         android:layout_alignStart="@+id/latval"
-        android:id="@+id/lonval" />
+        android:id="@+id/lonval"
+         />
 
     <TextView
         android:layout_width="wrap_content"
