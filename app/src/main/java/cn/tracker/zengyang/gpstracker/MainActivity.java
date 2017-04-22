@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import static android.R.attr.action;
 
 public class MainActivity extends AppCompatActivity implements NoticeDialogFragment.NoticeDialogListener {
+
     SharedPreferences sc;
     LocationManager lm;
 
@@ -56,14 +57,18 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
         //notice user to setting the gps
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Context context = getApplicationContext();
-            CharSequence text = "has no permission of gps.";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
+
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.add(newFragment, null);
+//            ft.commitAllowingStateLoss();
+
+//            Intent intent=new Intent("android.location.GPS_ENABLED_CHANGE");
+//            intent.putExtra("enabled", true);
+//            sendBroadcast(intent);
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "打开GPS。。。。", Toast.LENGTH_LONG);
+
             toast.show();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(newFragment, null);
-            ft.commitAllowingStateLoss();
             return;
         }
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -134,8 +139,12 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
                         "不支持"+provider+"定位,请打开设置", Toast.LENGTH_LONG);
 
                 toast.show();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.add(newFragment, null);
+                ft.commitAllowingStateLoss();
 
-                newFragment.show(getSupportFragmentManager(), "missiles");
+                //newFragment.show(getSupportFragmentManager(), "missiles");
+
 
             }
         });
