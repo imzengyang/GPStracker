@@ -17,6 +17,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
     TextView textlat;
     TextView textlon;
     TextView textconut;
+    TextView textstate;
+    Button endGps;
+    Button startGps;
 
     //action
     final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
@@ -46,11 +51,13 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         textlat = (TextView) findViewById(R.id.lonval);
         textlon = (TextView) findViewById(R.id.latval);
         textconut = (TextView) findViewById(R.id.allcount);
+        textstate = (TextView) findViewById(R.id.track_state);
+        startGps = (Button) findViewById(R.id.start_gps);
+        endGps = (Button) findViewById(R.id.end_gps);
+
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
@@ -74,15 +81,14 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         updateView(location);
 
+        final LocationListener mylbslistener = new LocationListener() {
 
-
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 8, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "地理位置改变，"+location, Toast.LENGTH_LONG);
-
-                toast.show();
+//                Toast toast = Toast.makeText(getApplicationContext(),
+//                        "地理位置改变，"+location, Toast.LENGTH_LONG);
+//
+//                toast.show();
                 updateView(location);
 
             }
@@ -100,10 +106,10 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "状态更改，"+provider+"状态为"+status, Toast.LENGTH_LONG);
-
-                toast.show();
+//                Toast toast = Toast.makeText(getApplicationContext(),
+//                        "状态更改，"+provider+"状态为"+status, Toast.LENGTH_LONG);
+//
+//                toast.show();
                 Location location = lm.getLastKnownLocation(provider);
                 updateView(location);
 
@@ -135,21 +141,64 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
 
             @Override
             public void onProviderDisabled(String provider) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "不支持"+provider+"定位,请打开设置", Toast.LENGTH_LONG);
-
-                toast.show();
+//                Toast toast = Toast.makeText(getApplicationContext(),
+//                        "不支持"+provider+"定位,请打开设置", Toast.LENGTH_LONG);
+//
+//                toast.show();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.add(newFragment, null);
                 ft.commitAllowingStateLoss();
 
-                //newFragment.show(getSupportFragmentManager(), "missiles");
 
-
+            }
+        };
+        startGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getApplicationContext();
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 8, mylbslistener);
+                textstate.setText("正在查找gps卫星记录位置中....");
             }
         });
 
+
+        endGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getApplicationContext();
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                lm.removeUpdates(mylbslistener);
+                if(lm != null){
+                    lm = null;
+                }
+
+                textstate.setText("已经关闭记录位置功能，如需记录，请点击开始记录");
+
+            }
+
+        });
+
     }
+
     public void updateView(Location location) {
 
 //        TODO
@@ -165,13 +214,14 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
             textlat.setText("" + location.getLatitude());
             textlon.setText("" + location.getLongitude());
             textconut.setText("总共有"+rowid+"条记录");
-            Context context = getApplicationContext();
-            CharSequence text = "正在更新视图。。。。";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+//            Context context = getApplicationContext();
+//            CharSequence text = "正在更新视图。。。。";
+//            int duration = Toast.LENGTH_SHORT;
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
         }
     }
+
 
     @Override
     protected void onDestroy() {

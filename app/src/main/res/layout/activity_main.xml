@@ -15,7 +15,6 @@
         android:text="经度"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/show"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
@@ -55,15 +54,52 @@
          />
 
     <TextView
+        android:id="@+id/allcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lontext"
         android:layout_marginTop="36dp"
-        android:id="@+id/allcount"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignLeft="@+id/lontext"
         android:layout_alignStart="@+id/lontext" />
+
+    <TextView
+        android:id="@+id/track_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/allcount"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/allcount"
+        android:layout_alignStart="@+id/allcount"
+        android:textSize="16dp"
+        android:text="是否需要记录你的位置？"/>
+
+    <Button
+        android:text="停止记录"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:id="@+id/end_gps"
+        android:elevation="0dp"
+        android:layout_below="@+id/start_gps"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="开始记录"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/start_gps"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
