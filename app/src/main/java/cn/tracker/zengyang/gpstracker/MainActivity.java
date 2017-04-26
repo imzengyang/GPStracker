@@ -187,9 +187,6 @@ public class MainActivity extends AppCompatActivity implements NoticeDialogFragm
                     return;
                 }
                 lm.removeUpdates(mylbslistener);
-                if(lm != null){
-                    lm = null;
-                }
 
                 textstate.setText("已经关闭记录位置功能，如需记录，请点击开始记录");
 
